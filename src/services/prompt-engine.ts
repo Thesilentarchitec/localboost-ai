@@ -12,12 +12,23 @@ export class PromptEngine {
   static buildPrompt(template: string, variables: PromptVariables): string {
     let prompt = template;
 
-    Object.entries(variables).forEach(([key, value]) => {
+    // Extract all variables needed by the template
+    const requiredVariables = this.extractVariables(template);
+
+    requiredVariables.forEach((key) => {
+      const value = variables[key];
       const regex = new RegExp(`{{${key}}}`, 'g');
-      prompt = prompt.replace(regex, String(value));
+      
+      if (value !== undefined && value !== null && value !== '') {
+        prompt = prompt.replace(regex, String(value));
+      } else {
+        // Handle missing variables by removing the placeholder or providing a fallback
+        prompt = prompt.replace(regex, '');
+      }
     });
 
-    return prompt;
+    // Clean up any double spaces or leading/trailing whitespace that might result from removals
+    return prompt.replace(/\s+/g, ' ').trim();
   }
 
   /**

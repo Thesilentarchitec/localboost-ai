@@ -7,9 +7,9 @@ import Link from 'next/link';
 import { DynamicForm } from '@/components/dashboard/DynamicForm';
 import { ResultBox } from '@/components/dashboard/ResultBox';
 import { PremiumLock } from '@/components/dashboard/PremiumLock';
-import { MOCK_TOOLS } from '@/lib/mock-data';
 import { Tool } from '@/types/database';
 import { cn } from '@/lib/utils';
+import { supabase } from '@/lib/supabase';
 
 export default function ToolExecutionPage() {
   const params = useParams();
@@ -17,16 +17,34 @@ export default function ToolExecutionPage() {
   const toolId = params.id as string;
   
   const [tool, setTool] = useState<Tool | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [formValues, setFormValues] = useState<Record<string, any>>({});
   const [result, setResult] = useState<string>('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
-    // In a real app, fetch from Supabase. Using mock data for now.
-    const foundTool = MOCK_TOOLS.find(t => t.id === toolId);
-    if (foundTool) {
-      setTool(foundTool);
+    const fetchTool = async () => {
+      try {
+        setIsLoading(true);
+        const { data, error } = await supabase
+          .from('tools')
+          .select('*')
+          .eq('id', toolId)
+          .single();
+
+        if (error) throw error;
+        setTool(data);
+      } catch (error) {
+        console.error('Error fetching tool:', error);
+        // Could redirect to dashboard if not found
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (toolId) {
+      fetchTool();
     }
   }, [toolId]);
 
@@ -88,11 +106,26 @@ export default function ToolExecutionPage() {
     }
   };
 
-  if (!tool) {
-    return <div className="p-8 text-center text-slate-500 text-lg font-medium">Loading tool...</div>;
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20">
+        <Sparkles className="w-8 h-8 text-blue-600 animate-spin mb-4" />
+        <p className="text-slate-500 font-medium">Loading tool details...</p>
+      </div>
+    );
   }
 
-  return (
+  if (!tool) {
+    return (
+      <div className="p-12 bg-white border border-slate-200 rounded-2xl border-dashed flex flex-col items-center justify-center text-center">
+        <h3 className="text-lg font-bold text-slate-900">Tool not found</h3>
+        <p className="text-slate-500 mt-1">The tool you are looking for does not exist or has been removed.</p>
+        <Link href="/dashboard" className="mt-6 px-6 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-colors">
+          Back to Dashboard
+        </Link>
+      </div>
+    );
+  }
     <div className="max-w-4xl mx-auto space-y-8">
       <Link 
         href="/dashboard" 
