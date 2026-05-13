@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { SearchBar } from '@/components/dashboard/SearchBar';
 import { CategoryFilter } from '@/components/dashboard/CategoryFilter';
 import { ToolGrid } from '@/components/dashboard/ToolGrid';
-import { CATEGORIES } from '@/lib/mock-data';
+import { MOCK_TOOLS, CATEGORIES } from '@/lib/mock-data';
 import { Tool } from '@/types/database';
 import { supabase } from '@/lib/supabase';
 import { Loader2 } from 'lucide-react';
@@ -27,9 +27,10 @@ export default function DashboardPage() {
           .order('name', { ascending: true });
 
         if (error) throw error;
-        setTools(data || []);
+        setTools(data && data.length > 0 ? data : MOCK_TOOLS);
       } catch (error) {
-        console.error('Error fetching tools:', error);
+        console.error('Error fetching tools, falling back to mock data:', error);
+        setTools(MOCK_TOOLS);
       } finally {
         setIsLoading(false);
       }

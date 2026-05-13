@@ -8,6 +8,7 @@ import { DynamicForm } from '@/components/dashboard/DynamicForm';
 import { ResultBox } from '@/components/dashboard/ResultBox';
 import { PremiumLock } from '@/components/dashboard/PremiumLock';
 import { Tool } from '@/types/database';
+import { MOCK_TOOLS } from '@/lib/mock-data';
 import { supabase } from '@/lib/supabase';
 
 export default function ToolExecutionPage() {
@@ -34,8 +35,11 @@ export default function ToolExecutionPage() {
         if (error) throw error;
         setTool(data);
       } catch (error) {
-        console.error('Error fetching tool:', error);
-        // Could redirect to dashboard if not found
+        console.error('Error fetching tool, trying mock data:', error);
+        const mockTool = MOCK_TOOLS.find(t => t.id === toolId);
+        if (mockTool) {
+          setTool(mockTool);
+        }
       } finally {
         setIsLoading(false);
       }
