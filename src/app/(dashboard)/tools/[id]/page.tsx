@@ -126,6 +126,8 @@ export default function ToolExecutionPage() {
       </div>
     );
   }
+
+  return (
     <div className="max-w-4xl mx-auto space-y-8">
       <Link 
         href="/dashboard" 

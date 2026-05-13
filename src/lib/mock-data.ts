@@ -5,7 +5,8 @@ export const CATEGORIES = [
   'Business',
   'Marketing',
   'Content Strategy',
-  'Local Business'
+  'Local Business',
+  'SEO'
 ];
 
 export const MOCK_TOOLS: Tool[] = [
@@ -126,6 +127,35 @@ export const MOCK_TOOLS: Tool[] = [
       { name: 'restaurant_name', label: 'Restaurant Name', type: 'text', required: true },
       { name: 'special_dish', label: 'Special Dish', type: 'text', required: true },
       { name: 'deal', label: 'Deal/Offer', type: 'text', required: true }
+    ],
+    output_type: 'text',
+    is_premium: false,
+    created_at: new Date().toISOString()
+  },
+  {
+    id: '8',
+    name: 'Keyword Clusterer',
+    description: 'Group your keywords into logical clusters for better SEO strategy.',
+    category: 'SEO',
+    icon: 'Layers',
+    prompt_template: 'Cluster the following keywords into logical groups for an SEO strategy. For each group, provide a "Pillar Topic" and "Supporting Keywords". Keywords: {{keywords}}.',
+    input_fields: [
+      { name: 'keywords', label: 'Keywords (one per line)', type: 'textarea', required: true }
+    ],
+    output_type: 'text',
+    is_premium: true,
+    created_at: new Date().toISOString()
+  },
+  {
+    id: '9',
+    name: 'SEO Meta Tag Generator',
+    description: 'Generate optimized title tags and meta descriptions.',
+    category: 'SEO',
+    icon: 'Search',
+    prompt_template: 'Generate an SEO-optimized Title Tag (max 60 chars) and Meta Description (max 160 chars) for a page about {{topic}} targeting the keyword {{target_keyword}}.',
+    input_fields: [
+      { name: 'topic', label: 'Page Topic', type: 'text', required: true },
+      { name: 'target_keyword', label: 'Target Keyword', type: 'text', required: true }
     ],
     output_type: 'text',
     is_premium: false,

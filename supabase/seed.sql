@@ -268,4 +268,69 @@ VALUES
   ]'::jsonb,
   'text',
   false
+),
+
+-- SEO TOOLS (RankPill Style)
+(
+  'Keyword Clusterer', 
+  'Group your keywords into logical clusters for better SEO strategy.', 
+  'SEO', 
+  'Layers', 
+  'Cluster the following keywords into logical groups for an SEO strategy. For each group, provide a "Pillar Topic" and "Supporting Keywords". Keywords: {{keywords}}.', 
+  '[
+    {"name": "keywords", "label": "Keywords (one per line)", "type": "textarea", "required": true}
+  ]'::jsonb,
+  'text',
+  true
+),
+(
+  'SEO Meta Tag Generator', 
+  'Generate optimized title tags and meta descriptions.', 
+  'SEO', 
+  'Search', 
+  'Generate an SEO-optimized Title Tag (max 60 chars) and Meta Description (max 160 chars) for a page about {{topic}} targeting the keyword {{target_keyword}}.', 
+  '[
+    {"name": "topic", "label": "Page Topic", "type": "text", "required": true},
+    {"name": "target_keyword", "label": "Target Keyword", "type": "text", "required": true}
+  ]'::jsonb,
+  'text',
+  false
+),
+(
+  'Blog Post Outline (SEO Optimized)', 
+  'Create a high-ranking blog post structure.', 
+  'SEO', 
+  'FileText', 
+  'Create a comprehensive blog post outline for the topic "{{topic}}" targeting the keyword "{{keyword}}". Include H1, H2, and H3 headings, and suggested semantic keywords to include in each section.', 
+  '[
+    {"name": "topic", "label": "Blog Topic", "type": "text", "required": true},
+    {"name": "keyword", "label": "Primary Keyword", "type": "text", "required": true}
+  ]'::jsonb,
+  'text',
+  false
+),
+(
+  'Local SEO GBP Optimizer', 
+  'Optimize your Google Business Profile for local search.', 
+  'SEO', 
+  'MapPin', 
+  'Provide 5 specific optimization tips for a Google Business Profile for a {{business_type}} in {{location}}. Include suggestions for business description, categories, and post ideas.', 
+  '[
+    {"name": "business_type", "label": "Business Type", "type": "text", "required": true},
+    {"name": "location", "label": "Location", "type": "text", "required": true}
+  ]'::jsonb,
+  'text',
+  false
+),
+(
+  'Semantic Keyword Finder', 
+  'Find related terms to improve your content depth.', 
+  'SEO', 
+  'Share2', 
+  'List 20 semantic and LSI (Latent Semantic Indexing) keywords related to "{{main_keyword}}" that should be included in an article to improve search engine relevance.', 
+  '[
+    {"name": "main_keyword", "label": "Main Keyword", "type": "text", "required": true}
+  ]'::jsonb,
+  'text',
+  true
 );
