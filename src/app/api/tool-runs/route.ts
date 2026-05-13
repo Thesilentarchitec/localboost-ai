@@ -29,10 +29,11 @@ export async function POST(req: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ data: data[0] });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error saving tool run:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Failed to save tool run';
     return NextResponse.json(
-      { error: error.message || 'Failed to save tool run' },
+      { error: errorMessage },
       { status: 500 }
     );
   }
@@ -55,10 +56,11 @@ export async function GET(req: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ data });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error fetching tool runs:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Failed to fetch tool runs';
     return NextResponse.json(
-      { error: error.message || 'Failed to fetch tool runs' },
+      { error: errorMessage },
       { status: 500 }
     );
   }

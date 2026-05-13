@@ -1,24 +1,22 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { ArrowLeft, Sparkles, Wand2 } from 'lucide-react';
 import Link from 'next/link';
 import { DynamicForm } from '@/components/dashboard/DynamicForm';
 import { ResultBox } from '@/components/dashboard/ResultBox';
 import { PremiumLock } from '@/components/dashboard/PremiumLock';
 import { Tool } from '@/types/database';
-import { cn } from '@/lib/utils';
 import { supabase } from '@/lib/supabase';
 
 export default function ToolExecutionPage() {
   const params = useParams();
-  const router = useRouter();
   const toolId = params.id as string;
   
   const [tool, setTool] = useState<Tool | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [formValues, setFormValues] = useState<Record<string, any>>({});
+  const [formValues, setFormValues] = useState<Record<string, string>>({});
   const [result, setResult] = useState<string>('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -48,12 +46,12 @@ export default function ToolExecutionPage() {
     }
   }, [toolId]);
 
-  const handleInputChange = (name: string, value: any) => {
+  const handleInputChange = (name: string, value: string) => {
     setFormValues(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleGenerate = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleGenerate = async (e?: React.FormEvent) => {
+    if (e && e.preventDefault) e.preventDefault();
     if (!tool) return;
 
     setIsGenerating(true);
@@ -73,8 +71,9 @@ export default function ToolExecutionPage() {
       if (data.error) throw new Error(data.error);
       
       setResult(data.output_data);
-    } catch (error: any) {
-      alert('Generation failed: ' + error.message);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      alert('Generation failed: ' + message);
     } finally {
       setIsGenerating(false);
     }
@@ -99,8 +98,9 @@ export default function ToolExecutionPage() {
       if (data.error) throw new Error(data.error);
       
       alert('Result saved successfully!');
-    } catch (error: any) {
-      alert('Failed to save result: ' + error.message);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      alert('Failed to save result: ' + message);
     } finally {
       setIsSaving(false);
     }
@@ -188,7 +188,7 @@ export default function ToolExecutionPage() {
           {result ? (
             <ResultBox 
               content={result} 
-              onRegenerate={() => handleGenerate({ preventDefault: () => {} } as any)}
+              onRegenerate={() => handleGenerate()}
               onSave={handleSave}
               isSaving={isSaving}
             />
@@ -199,7 +199,7 @@ export default function ToolExecutionPage() {
               </div>
               <h3 className="text-lg font-bold text-slate-400">Ready to Generate</h3>
               <p className="text-slate-400 mt-2 max-w-xs mx-auto">
-                Fill out the form and click "Generate Content" to see the AI magic happen.
+                Fill out the form and click &quot;Generate Content&quot; to see the AI magic happen.
               </p>
             </div>
           )}

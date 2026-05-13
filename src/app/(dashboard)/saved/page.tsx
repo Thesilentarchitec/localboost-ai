@@ -2,12 +2,17 @@
 
 import React, { useState, useEffect } from 'react';
 import { ToolRun } from '@/types/database';
-import { ResultBox } from '@/components/dashboard/ResultBox';
 import { Sparkles, Clock, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 
+type EnhancedToolRun = ToolRun & {
+  tools?: {
+    name: string;
+  };
+};
+
 export default function SavedResultsPage() {
-  const [runs, setToolRuns] = useState<any[]>([]);
+  const [runs, setToolRuns] = useState<EnhancedToolRun[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -75,7 +80,7 @@ export default function SavedResultsPage() {
                 </p>
                 <div className="mt-4 pt-4 border-t border-slate-50 flex items-center justify-between">
                   <div className="flex gap-2">
-                    {Object.entries(run.input_data).slice(0, 2).map(([key, value]: [string, any]) => (
+                    {Object.entries(run.input_data).slice(0, 2).map(([key, value]) => (
                       <span key={key} className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 text-[10px] font-medium uppercase tracking-tight">
                         {key}: {String(value)}
                       </span>

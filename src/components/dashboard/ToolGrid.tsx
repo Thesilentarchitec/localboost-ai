@@ -17,7 +17,7 @@ export function ToolGrid({ tools, onToolClick }: ToolGridProps) {
           </svg>
         </div>
         <h3 className="text-lg font-medium text-slate-900">No tools found</h3>
-        <p className="text-slate-500 mt-1">Try adjusting your search or filter to find what you're looking for.</p>
+        <p className="text-slate-500 mt-1">Try adjusting your search or filter to find what you&apos;re looking for.</p>
       </div>
     );
   }

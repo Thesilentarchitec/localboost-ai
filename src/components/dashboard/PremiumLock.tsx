@@ -1,6 +1,5 @@
 import React from 'react';
 import { Lock, Sparkles } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 interface PremiumLockProps {
   onUpgrade?: () => void;

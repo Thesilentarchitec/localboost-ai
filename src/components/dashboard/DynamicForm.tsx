@@ -4,8 +4,8 @@ import { cn } from '@/lib/utils';
 
 interface DynamicFormProps {
   fields: InputField[];
-  values: Record<string, any>;
-  onChange: (name: string, value: any) => void;
+  values: Record<string, string>;
+  onChange: (name: string, value: string) => void;
   onSubmit: (e: React.FormEvent) => void;
   isGenerating: boolean;
 }

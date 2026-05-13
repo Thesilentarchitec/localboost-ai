@@ -24,7 +24,7 @@ export type ToolRun = {
   id: string;
   user_id: string;
   tool_id: string;
-  input_data: Record<string, any>;
+  input_data: Record<string, string | number | boolean | undefined>;
   output_data: string;
   created_at: string;
 };

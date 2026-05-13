@@ -33,10 +33,11 @@ export async function POST(req: NextRequest) {
     const output_data = response.choices[0].message.content;
 
     return NextResponse.json({ output_data });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error generating content:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Failed to generate content';
     return NextResponse.json(
-      { error: error.message || 'Failed to generate content' },
+      { error: errorMessage },
       { status: 500 }
     );
   }

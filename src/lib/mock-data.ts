@@ -6,7 +6,8 @@ export const CATEGORIES = [
   'Marketing',
   'Content Strategy',
   'Local Business',
-  'SEO'
+  'SEO',
+  'Video'
 ];
 
 export const MOCK_TOOLS: Tool[] = [
@@ -195,5 +196,70 @@ export const MOCK_TOOLS: Tool[] = [
     output_type: 'text',
     is_premium: false,
     created_at: new Date().toISOString()
+  },
+  {
+    id: '12',
+    name: 'Faceless AI Video Script Generator',
+    description: 'Generate viral scripts for faceless YouTube or TikTok channels.',
+    category: 'Video',
+    icon: 'Video',
+    prompt_template: 'Write a viral script for a faceless {{niche}} video about {{topic}}. Include a hook, 3 main points, and a call to action. Style: {{style}}.',
+    input_fields: [
+      { name: 'niche', label: 'Video Niche', type: 'text', required: true },
+      { name: 'topic', label: 'Video Topic', type: 'textarea', required: true },
+      { name: 'style', label: 'Video Style', type: 'select', options: [
+        { label: 'Documentary', value: 'documentary' },
+        { label: 'Storytelling', value: 'storytelling' },
+        { label: 'Educational', value: 'educational' },
+        { label: 'Top 10', value: 'top10' }
+      ], required: true }
+    ],
+    output_type: 'text',
+    is_premium: true,
+    created_at: new Date().toISOString()
+  },
+  {
+    id: '13',
+    name: 'TikTok Viral Series Planner',
+    description: 'Plan a series of related TikToks to build an audience on autopilot.',
+    category: 'Video',
+    icon: 'Zap',
+    prompt_template: 'Plan a 5-part TikTok series for {{business_name}} about {{theme}}. For each part, provide a hook and a short script concept.',
+    input_fields: [
+      { name: 'business_name', label: 'Business/Channel Name', type: 'text', required: true },
+      { name: 'theme', label: 'Series Theme', type: 'text', required: true }
+    ],
+    output_type: 'text',
+    is_premium: false,
+    created_at: new Date().toISOString()
+  },
+  {
+    id: '14',
+    name: 'SEO Article Brief Generator',
+    description: 'Generate comprehensive article briefs that RankPill can use to write content.',
+    category: 'SEO',
+    icon: 'FileText',
+    prompt_template: 'Create a detailed SEO article brief for the keyword "{{target_keyword}}". Include H1, H2 structure, target audience, and key points to cover for maximum search visibility.',
+    input_fields: [
+      { name: 'target_keyword', label: 'Target Keyword', type: 'text', required: true }
+    ],
+    output_type: 'text',
+    is_premium: true,
+    created_at: new Date().toISOString()
+  },
+  {
+    id: '15',
+    name: 'Semantic Keyword Expander',
+    description: 'Find LSI and semantic keywords to improve your content depth.',
+    category: 'SEO',
+    icon: 'Search',
+    prompt_template: 'Generate a list of 15 semantic and LSI keywords related to {{main_keyword}} to help rank higher on Google and ChatGPT search.',
+    input_fields: [
+      { name: 'main_keyword', label: 'Main Keyword', type: 'text', required: true }
+    ],
+    output_type: 'text',
+    is_premium: false,
+    created_at: new Date().toISOString()
   }
 ];
+

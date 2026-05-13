@@ -1,5 +1,5 @@
 import React from 'react';
-import { LucideIcon, Lock } from 'lucide-react';
+import { Lock } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Tool } from '@/types/database';
@@ -11,7 +11,7 @@ interface ToolCardProps {
 
 export function ToolCard({ tool, onClick }: ToolCardProps) {
   // Dynamically get the icon component
-  const IconComponent = (LucideIcons as any)[tool.icon] || LucideIcons.Wrench;
+  const IconComponent = (LucideIcons[tool.icon as keyof typeof LucideIcons] as React.ElementType) || LucideIcons.Wrench;
 
   return (
     <div 
