@@ -284,53 +284,85 @@ VALUES
   true
 ),
 (
-  'SEO Meta Tag Generator', 
-  'Generate optimized title tags and meta descriptions.', 
+  'SEO Keyword Research Tool', 
+  'Discover high-potential keywords for your niche.', 
   'SEO', 
   'Search', 
-  'Generate an SEO-optimized Title Tag (max 60 chars) and Meta Description (max 160 chars) for a page about {{topic}} targeting the keyword {{target_keyword}}.', 
+  'Generate a list of 20 high-potential SEO keywords for the niche: {{niche}}. Include estimated difficulty and search intent for each.', 
   '[
-    {"name": "topic", "label": "Page Topic", "type": "text", "required": true},
-    {"name": "target_keyword", "label": "Target Keyword", "type": "text", "required": true}
+    {"name": "niche", "label": "Niche", "type": "text", "required": true}
   ]'::jsonb,
   'text',
   false
 ),
 (
-  'Blog Post Outline (SEO Optimized)', 
-  'Create a high-ranking blog post structure.', 
+  'SEO Meta Description Generator', 
+  'Generate optimized meta descriptions that drive clicks.', 
   'SEO', 
-  'FileText', 
-  'Create a comprehensive blog post outline for the topic "{{topic}}" targeting the keyword "{{keyword}}". Include H1, H2, and H3 headings, and suggested semantic keywords to include in each section.', 
+  'Search', 
+  'Generate 3 variations of an SEO-optimized meta description for a page about {{page_topic}} targeting the keyword {{target_keyword}}. Tone: {{tone}}.', 
   '[
-    {"name": "topic", "label": "Blog Topic", "type": "text", "required": true},
-    {"name": "keyword", "label": "Primary Keyword", "type": "text", "required": true}
+    {"name": "page_topic", "label": "Page Topic", "type": "text", "required": true},
+    {"name": "target_keyword", "label": "Target Keyword", "type": "text", "required": true},
+    {"name": "tone", "label": "Tone", "type": "select", "options": [
+      {"label": "Professional", "value": "professional"},
+      {"label": "Casual", "value": "casual"},
+      {"label": "Urgent", "value": "urgent"}
+    ], "required": true}
   ]'::jsonb,
   'text',
   false
 ),
 (
-  'Local SEO GBP Optimizer', 
-  'Optimize your Google Business Profile for local search.', 
+  'SEO URL Slug Generator', 
+  'Create clean and keyword-rich URL slugs.', 
   'SEO', 
-  'MapPin', 
-  'Provide 5 specific optimization tips for a Google Business Profile for a {{business_type}} in {{location}}. Include suggestions for business description, categories, and post ideas.', 
+  'Link', 
+  'Generate 5 SEO-friendly URL slugs for a page with the title: "{{title}}".', 
   '[
-    {"name": "business_type", "label": "Business Type", "type": "text", "required": true},
-    {"name": "location", "label": "Location", "type": "text", "required": true}
+    {"name": "title", "label": "Page Title", "type": "text", "required": true}
   ]'::jsonb,
   'text',
   false
 ),
 (
-  'Semantic Keyword Finder', 
-  'Find related terms to improve your content depth.', 
+  'Local SEO Property Description', 
+  'Optimized descriptions for real estate listings.', 
   'SEO', 
-  'Share2', 
-  'List 20 semantic and LSI (Latent Semantic Indexing) keywords related to "{{main_keyword}}" that should be included in an article to improve search engine relevance.', 
+  'Home', 
+  'Write an SEO-optimized property description for a {{property_type}} in {{location}}. Key features: {{features}}.', 
   '[
-    {"name": "main_keyword", "label": "Main Keyword", "type": "text", "required": true}
+    {"name": "property_type", "label": "Property Type", "type": "text", "required": true},
+    {"name": "location", "label": "Location", "type": "text", "required": true},
+    {"name": "features", "label": "Features", "type": "textarea", "required": true}
+  ]'::jsonb,
+  'text',
+  false
+),
+(
+  'Service Page Copywriter', 
+  'Professional copy for medical and dentist service pages.', 
+  'SEO', 
+  'Stethoscope', 
+  'Write professional and trust-building service page copy for {{service_name}} at {{practice_name}}. Include sections for "About the Service", "Why Choose Us", and a call to action.', 
+  '[
+    {"name": "service_name", "label": "Service Name", "type": "text", "required": true},
+    {"name": "practice_name", "label": "Practice Name", "type": "text", "required": true}
   ]'::jsonb,
   'text',
   true
+),
+(
+  'AI Reddit Marketing Post', 
+  'Engage with subreddits without sounding like an ad.', 
+  'SEO', 
+  'MessageCircle', 
+  'Write a Reddit post for the r/{{subreddit}} subreddit discussing {{product_service}} as a solution to {{problem}}. The tone should be helpful and conversational, not salesy.', 
+  '[
+    {"name": "subreddit", "label": "Subreddit", "type": "text", "required": true},
+    {"name": "product_service", "label": "Product/Service", "type": "text", "required": true},
+    {"name": "problem", "label": "Problem it Solves", "type": "textarea", "required": true}
+  ]'::jsonb,
+  'text',
+  false
 );

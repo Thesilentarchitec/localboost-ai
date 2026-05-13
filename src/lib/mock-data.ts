@@ -148,14 +148,49 @@ export const MOCK_TOOLS: Tool[] = [
   },
   {
     id: '9',
-    name: 'SEO Meta Tag Generator',
-    description: 'Generate optimized title tags and meta descriptions.',
+    name: 'SEO Keyword Research Tool',
+    description: 'Discover high-potential keywords for your niche.',
     category: 'SEO',
     icon: 'Search',
-    prompt_template: 'Generate an SEO-optimized Title Tag (max 60 chars) and Meta Description (max 160 chars) for a page about {{topic}} targeting the keyword {{target_keyword}}.',
+    prompt_template: 'Generate a list of 20 high-potential SEO keywords for the niche: {{niche}}. Include estimated difficulty and search intent for each.',
     input_fields: [
-      { name: 'topic', label: 'Page Topic', type: 'text', required: true },
-      { name: 'target_keyword', label: 'Target Keyword', type: 'text', required: true }
+      { name: 'niche', label: 'Niche', type: 'text', required: true }
+    ],
+    output_type: 'text',
+    is_premium: false,
+    created_at: new Date().toISOString()
+  },
+  {
+    id: '10',
+    name: 'SEO Meta Description Generator',
+    description: 'Generate optimized meta descriptions that drive clicks.',
+    category: 'SEO',
+    icon: 'Search',
+    prompt_template: 'Generate 3 variations of an SEO-optimized meta description for a page about {{page_topic}} targeting the keyword {{target_keyword}}. Tone: {{tone}}.',
+    input_fields: [
+      { name: 'page_topic', label: 'Page Topic', type: 'text', required: true },
+      { name: 'target_keyword', label: 'Target Keyword', type: 'text', required: true },
+      { name: 'tone', label: 'Tone', type: 'select', options: [
+        { label: 'Professional', value: 'professional' },
+        { label: 'Casual', value: 'casual' },
+        { label: 'Urgent', value: 'urgent' }
+      ], required: true }
+    ],
+    output_type: 'text',
+    is_premium: false,
+    created_at: new Date().toISOString()
+  },
+  {
+    id: '11',
+    name: 'AI Reddit Marketing Post',
+    description: 'Engage with subreddits without sounding like an ad.',
+    category: 'SEO',
+    icon: 'MessageCircle',
+    prompt_template: 'Write a Reddit post for the r/{{subreddit}} subreddit discussing {{product_service}} as a solution to {{problem}}. The tone should be helpful and conversational, not salesy.',
+    input_fields: [
+      { name: 'subreddit', label: 'Subreddit', type: 'text', required: true },
+      { name: 'product_service', label: 'Product/Service', type: 'text', required: true },
+      { name: 'problem', label: 'Problem it Solves', type: 'textarea', required: true }
     ],
     output_type: 'text',
     is_premium: false,
