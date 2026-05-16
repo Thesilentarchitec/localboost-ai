@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+model User {
+  id            String       @id @default(uuid())
+  email         String       @unique
+  name          String?
+  image         String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  
+  profile       Profile?
+  memberships   Membership[]
+  toolRuns      ToolRun[]
+}
+
+model Profile {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bio       String?
+  website   String?
+  location  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Tenant {
+  id             String          @id @default(uuid())
+  name           String
+  slug           String          @unique
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  
+  memberships    Membership[]
+  socialAccounts SocialAccount[]
+  scheduledPosts ScheduledPost[]
+  toolRuns       ToolRun[]
+}
+
+model Membership {
+  id        String   @id @default(uuid())
+  role      Role     @default(MEMBER)
+  userId    String
+  tenantId  String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, tenantId])
+}
+
+model SocialAccount {
+  id             String   @id @default(uuid())
+  tenantId       String
+  tenant         Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  platform       String   // e.g., "TWITTER", "INSTAGRAM", "LINKEDIN"
+  platformId     String   // The ID of the account on the platform
+  accountName    String?
+  accessToken    String   // Encrypted
+  refreshToken   String?  // Encrypted
+  expiresAt      DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  scheduledPosts ScheduledPost[]
+
+  @@unique([tenantId, platform, platformId])
+}
+
+model ScheduledPost {
+  id              String         @id @default(uuid())
+  tenantId        String
+  tenant          Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  socialAccountId String
+  socialAccount   SocialAccount  @relation(fields: [socialAccountId], references: [id], onDelete: Cascade)
+  content         String
+  mediaUrls       String[]
+  scheduledAt     DateTime
+  status          PostStatus     @default(PENDING)
+  platformResult  Json?          // Stores response from the platform after posting
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}
+
+enum PostStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
+model Tool {
+  id             String    @id @default(uuid())
+  name           String
+  description    String
+  category       String
+  icon           String
+  promptTemplate String    @map("prompt_template")
+  inputFields    Json      @map("input_fields")
+  outputType     String    @default("text") @map("output_type")
+  isPremium      Boolean   @default(false) @map("is_premium")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+
+  toolRuns       ToolRun[]
+}
+
+model ToolRun {
+  id          String   @id @default(uuid())
+  userId      String?  @map("user_id")
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  tenantId    String   @map("tenant_id")
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  toolId      String   @map("tool_id")
+  tool        Tool     @relation(fields: [toolId], references: [id], onDelete: Cascade)
+  inputData   Json     @map("input_data")
+  outputData  String   @map("output_data")
+  createdAt   DateTime @default(now()) @map("created_at")
+}
